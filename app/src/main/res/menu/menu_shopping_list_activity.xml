@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pl.nauka.jarek.udemy_mg.MainActivity">
+    <item
+        android:id="@+id/action_add_new_list"
+        android:icon="@drawable/baseline_add_24"
+        android:orderInCategory="100"
+        android:title="Dodaj nową listę"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_remove_list"
+        android:icon="@drawable/baseline_delete_24"
+        android:orderInCategory="100"
+        android:title="Usuń listę"
+        app:showAsAction="ifRoom" />
+
+</menu>
