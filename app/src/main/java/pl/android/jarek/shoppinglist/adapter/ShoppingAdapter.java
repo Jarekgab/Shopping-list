@@ -51,8 +51,6 @@ public class ShoppingAdapter extends ArrayAdapter {
                                 cbSelected.setChecked(false);
                             }
 
-                            cbSelected.setFocusable(false);
-
                             if (cbSelected.isChecked() == true) {
 
                                 shoppingElementList.get(position).setRed();
