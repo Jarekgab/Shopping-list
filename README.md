@@ -12,6 +12,12 @@ Możesz zainstalować aplikację korzystając z pliku [APK](apk) tego projektu n
 * łatwe wprowadzanie nowych produktów,
 * możliwość tworzenia więcej niż jednej listy zakupów.
 
+## Użyte biblioteki
+* [Google GSON](https://github.com/google/gson),
+* [Android Bootstrap](https://github.com/Bearded-Hen/Android-Bootstrap),
+* [Nice Spinner](https://github.com/arcadefire/nice-spinner).
+
+
 ## Zrzuty ekranu
 
 <div>
