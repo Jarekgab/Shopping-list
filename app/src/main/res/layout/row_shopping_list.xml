@@ -2,24 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/row_shopping_list_ll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:background="@drawable/ripple">
+    android:layout_height="wrap_content"
+    android:background="@drawable/ripple"
+    android:clickable="true">
 
 
     <CheckBox
-        android:id="@+id/selected_CB"
+        android:id="@+id/cb_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false" />
 
     <TextView
-        android:id="@+id/name_ET"
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
-        android:text="TextView"
+        android:padding="10dp"
+        android:text="Cukier"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="16sp"
-        android:padding="10dp"/>
+        android:textSize="16sp" />
 </LinearLayout>

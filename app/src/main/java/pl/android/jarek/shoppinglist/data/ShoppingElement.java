@@ -2,19 +2,19 @@ package pl.android.jarek.shoppinglist.data;
 
 import android.graphics.Color;
 
-public class ShoppingListElement {
+public class ShoppingElement {
 
     private String name;
     private int color;
-    private Boolean checked;
+    private Boolean selected;
 
     private int red = Color.RED;
     private int black = Color.BLACK;
 
-    public ShoppingListElement(String name, int color, Boolean checked){
+    public ShoppingElement(String name, int color, Boolean selected){
         this.name = name;
         this.color = color;
-        this.checked = checked;
+        this.selected = selected;
     }
 
     public String getName() {
@@ -25,12 +25,12 @@ public class ShoppingListElement {
         return color;
     }
 
-    public void setClassChecked(Boolean checked) {
-        this.checked = checked;
+    public void setSelected(Boolean checked) {
+        this.selected = checked;
     }
 
-    public Boolean getClassChecked() {
-        return checked;
+    public Boolean getSelected() {
+        return selected;
     }
 
     public void setRed() {

@@ -10,18 +10,18 @@
     android:background="#f5f5f5">
 
 <ListView
-    android:id="@+id/itemList"
+    android:id="@+id/lv_shopping_list"
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="10dp"
-    app:layout_constraintBottom_toTopOf="@+id/itemName_ET"
-    app:layout_constraintEnd_toEndOf="@+id/itemSpinner"
-    app:layout_constraintStart_toStartOf="@+id/itemSpinner"
-    app:layout_constraintTop_toBottomOf="@+id/itemSpinner" />
+    app:layout_constraintBottom_toTopOf="@+id/et_element_name"
+    app:layout_constraintEnd_toEndOf="@+id/ns_list"
+    app:layout_constraintStart_toStartOf="@+id/ns_list"
+    app:layout_constraintTop_toBottomOf="@+id/ns_list" />
 
 <org.angmarch.views.NiceSpinner
-    android:id="@+id/itemSpinner"
+    android:id="@+id/ns_list"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="15dp"
@@ -29,7 +29,6 @@
     android:layout_marginTop="5dp"
     android:layout_marginEnd="15dp"
     android:layout_marginRight="15dp"
-    android:focusableInTouchMode="true"
     android:textSize="16dp"
     app:arrowTint="@color/colorPrimary"
     app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +37,7 @@
     app:layout_constraintVertical_chainStyle="spread_inside" />
 
 <ImageButton
-    android:id="@+id/deleteButton"
+    android:id="@+id/ib_delete"
     android:layout_width="50dp"
     android:layout_height="50dp"
     android:layout_gravity="bottom|end"
@@ -48,14 +47,14 @@
     android:layout_marginRight="5dp"
     android:adjustViewBounds="false"
     android:background="@drawable/corners_delete"
-    app:layout_constraintBottom_toBottomOf="@+id/itemName_ET"
-    app:layout_constraintEnd_toStartOf="@+id/itemName_ET"
+    app:layout_constraintBottom_toBottomOf="@+id/et_element_name"
+    app:layout_constraintEnd_toStartOf="@+id/et_element_name"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/itemName_ET"
+    app:layout_constraintTop_toTopOf="@+id/et_element_name"
     app:srcCompat="@drawable/baseline_delete_white_24" />
 
 <com.beardedhen.androidbootstrap.BootstrapEditText
-    android:id="@+id/itemName_ET"
+    android:id="@+id/et_element_name"
     android:layout_width="188dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="5dp"
@@ -70,13 +69,12 @@
     app:bootstrapBrand="info"
     app:bootstrapSize="lg"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/addButton"
-    app:layout_constraintStart_toEndOf="@+id/deleteButton"
-    app:layout_constraintTop_toBottomOf="@+id/itemList"
-    android:focusableInTouchMode="true"/>
+    app:layout_constraintEnd_toStartOf="@+id/b_add_element"
+    app:layout_constraintStart_toEndOf="@+id/ib_delete"
+    app:layout_constraintTop_toBottomOf="@+id/lv_shopping_list"/>
 
 <Button
-    android:id="@+id/addButton"
+    android:id="@+id/b_add_element"
     style="@style/Widget.AppCompat.Button.Colored"
     android:layout_width="60dp"
     android:layout_height="50dp"
@@ -86,11 +84,11 @@
     android:layout_marginRight="5dp"
     android:background="@drawable/corners"
     android:text="Dodaj"
-    app:layout_constraintBottom_toBottomOf="@+id/itemName_ET"
+    app:layout_constraintBottom_toBottomOf="@+id/et_element_name"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.506"
-    app:layout_constraintStart_toEndOf="@+id/itemName_ET"
-    app:layout_constraintTop_toTopOf="@+id/itemName_ET"
+    app:layout_constraintStart_toEndOf="@+id/et_element_name"
+    app:layout_constraintTop_toTopOf="@+id/et_element_name"
     app:layout_constraintVertical_bias="0.545" />
 
 </android.support.constraint.ConstraintLayout>

@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/listNameTextView"
+        android:id="@+id/tv_dialog"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
@@ -20,7 +20,7 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/listNameEditText"
+        android:id="@+id/et_list_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -37,7 +37,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/cancelButton"
+            android:id="@+id/b_cancel"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             />
 
         <Button
-            android:id="@+id/saveButton"
+            android:id="@+id/b_add"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="90dp"
             android:layout_height="wrap_content"

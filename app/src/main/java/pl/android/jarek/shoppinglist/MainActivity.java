@@ -25,23 +25,24 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 import org.angmarch.views.NiceSpinner;
 import java.util.ArrayList;
 import java.util.List;
-import pl.android.jarek.shoppinglist.adapter.ShoppingListAdapter;
-import pl.android.jarek.shoppinglist.data.ShoppingListElement;
+import pl.android.jarek.shoppinglist.adapter.ShoppingAdapter;
+import pl.android.jarek.shoppinglist.data.ShoppingElement;
 import pl.android.jarek.shoppinglist.util.SharedPreferencesSaver;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    ListView itemList;
-    NiceSpinner itemSpinner;
-    ImageButton deleteButton;
-    BootstrapEditText itemName;
-    Button addButton;
+    ListView lvShoppingList;
+    NiceSpinner nsList;
+    ImageButton ibDelete;
+    BootstrapEditText etElementName;
+    Button bAddElement;
 
-    private List<String> spinnerItems;
-    private List<List<ShoppingListElement>> spinnerList;
-    private ShoppingListAdapter listAdapter;
+    private List<String> spinnerList;
+    private List<List<ShoppingElement>> shoppingElementList;
+
     private ArrayAdapter<String> spinnerAdapter;
+    private ShoppingAdapter shoppingAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,41 +59,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        itemList = findViewById(R.id.itemList);
-        itemSpinner = findViewById(R.id.itemSpinner);
-        deleteButton = findViewById(R.id.deleteButton);
-        itemName = findViewById(R.id.itemName_ET);
-        addButton = findViewById(R.id.addButton);
+        lvShoppingList = findViewById(R.id.lv_shopping_list);
+        nsList = findViewById(R.id.ns_list);
+        ibDelete = findViewById(R.id.ib_delete);
+        etElementName = findViewById(R.id.et_element_name);
+        bAddElement = findViewById(R.id.b_add_element);
 
-        spinnerItems = new ArrayList<>();
+        spinnerList = new ArrayList<>();
 
-        if (spinnerItems.isEmpty()) {
-            spinnerItems.add("Lista główna");
-            spinnerList = new ArrayList<>();
-            spinnerList.add(new ArrayList<ShoppingListElement>());
+        if (spinnerList.isEmpty()) {
+            spinnerList.add("Lista główna");
+            shoppingElementList = new ArrayList<>();
+            shoppingElementList.add(new ArrayList<ShoppingElement>());
         }
 
-        List<List<ShoppingListElement>> newSpinnerList = SharedPreferencesSaver.loadSpinnerL(getPreferences(MODE_PRIVATE));
-        List<String> newSpinnerItems = SharedPreferencesSaver.loadSpinnerI(getPreferences(MODE_PRIVATE));
+        List<List<ShoppingElement>> newShoppingElementList = SharedPreferencesSaver.loadShoppingElementList(getPreferences(MODE_PRIVATE));
+        List<String> newSpinnerList = SharedPreferencesSaver.loadSpinnerList(getPreferences(MODE_PRIVATE));
+
+        if (newShoppingElementList != null) {
+            shoppingElementList = newShoppingElementList;
+        }
 
         if (newSpinnerList != null) {
             spinnerList = newSpinnerList;
         }
 
-        if (newSpinnerItems != null) {
-            spinnerItems = newSpinnerItems;
-        }
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, spinnerList);
+        nsList.setAdapter(spinnerAdapter);
 
-        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, spinnerItems);
-        itemSpinner.setAdapter(spinnerAdapter);
-
-        itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        nsList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                listAdapter = new ShoppingListAdapter(MainActivity.this, R.layout.row_shopping_list, spinnerList.get(position));
-                itemList.setAdapter(listAdapter);
-                itemList.requestFocus();
+                shoppingAdapter = new ShoppingAdapter(MainActivity.this, R.layout.row_shopping_list, shoppingElementList.get(position));
+                lvShoppingList.setAdapter(shoppingAdapter);
+                lvShoppingList.requestFocus();
             }
 
             @Override
@@ -100,48 +101,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-        addButton.setOnClickListener(new View.OnClickListener() {
+        bAddElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemName.getText() != null && !itemName.getText().toString().trim().isEmpty() && !itemName.getText().toString().equals("Podaj nazwę")) {
+                if (etElementName.getText() != null && !etElementName.getText().toString().trim().isEmpty() && !etElementName.getText().toString().equals("Podaj nazwę")) {
 
-                    ShoppingListElement shoppingListElement = new ShoppingListElement(itemName.getText().toString(), Color.BLACK, false);
-                    itemName.setText("");
+                    ShoppingElement shoppingElement = new ShoppingElement(etElementName.getText().toString(), Color.BLACK, false);
+                    etElementName.setText("");
 
-                    spinnerList.get(itemSpinner.getSelectedIndex()).add(shoppingListElement);
-                    listAdapter.notifyDataSetChanged();
+                    shoppingElementList.get(nsList.getSelectedIndex()).add(shoppingElement);
+                    shoppingAdapter.notifyDataSetChanged();
                 }
             }
         });
 
-        itemName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etElementName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus == true) {
-                    itemName.setText("");
+                    etElementName.setText("");
                 } else {
-                    itemName.setText("Podaj nazwę");
+                    etElementName.setText("Podaj nazwę");
                     closeKeyboard();
                 }
             }
         });
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        ibDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<ShoppingListElement> selectedView = spinnerList.get(itemSpinner.getSelectedIndex());
+                List<ShoppingElement> selectedView = shoppingElementList.get(nsList.getSelectedIndex());
                 for (int i = 0; i < selectedView.size(); i++) {
-                    if (selectedView.get(i).getClassChecked() == true) {
+                    if (selectedView.get(i).getSelected() == true) {
                         selectedView.remove(i);
                         i--;
                     }
                 }
-                listAdapter.notifyDataSetChanged();
+                shoppingAdapter.notifyDataSetChanged();
             }
         });
 
-        listAdapter = new ShoppingListAdapter(this, R.layout.row_shopping_list, spinnerList.get(0));
-        itemList.setAdapter(listAdapter);
+        shoppingAdapter = new ShoppingAdapter(this, R.layout.row_shopping_list, shoppingElementList.get(0));
+        lvShoppingList.setAdapter(shoppingAdapter);
     }
 
     private void closeKeyboard() {
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPause() {
         super.onPause();
 
-        SharedPreferencesSaver.saveTo(spinnerList, spinnerItems, getPreferences(MODE_PRIVATE));
+        SharedPreferencesSaver.saveTo(shoppingElementList, spinnerList, getPreferences(MODE_PRIVATE));
     }
 
     @Override
@@ -182,20 +183,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.action_remove_list) {
 
-            if (!spinnerItems.isEmpty() && itemSpinner.getSelectedIndex() > 0) {
-                spinnerItems.remove(itemSpinner.getSelectedIndex());
-                spinnerList.remove(itemSpinner.getSelectedIndex());
+            if (!spinnerList.isEmpty() && nsList.getSelectedIndex() > 0) {
+                spinnerList.remove(nsList.getSelectedIndex());
+                shoppingElementList.remove(nsList.getSelectedIndex());
 
-                itemSpinner.setSelectedIndex(0);
-                listAdapter = new ShoppingListAdapter(MainActivity.this, R.layout.row_shopping_list, spinnerList.get(0));
-                itemList.setAdapter(listAdapter);
+                nsList.setSelectedIndex(0);
+                shoppingAdapter = new ShoppingAdapter(MainActivity.this, R.layout.row_shopping_list, shoppingElementList.get(0));
+                lvShoppingList.setAdapter(shoppingAdapter);
 
-            } else if (!spinnerItems.isEmpty() && itemSpinner.getSelectedIndex() == 0) {
+            } else if (!spinnerList.isEmpty() && nsList.getSelectedIndex() == 0) {
 
-                spinnerList.get(itemSpinner.getSelectedIndex()).clear();
-                itemSpinner.setSelectedIndex(0);
-                listAdapter = new ShoppingListAdapter(MainActivity.this, R.layout.row_shopping_list, spinnerList.get(0));
-                itemList.setAdapter(listAdapter);
+                shoppingElementList.get(nsList.getSelectedIndex()).clear();
+                nsList.setSelectedIndex(0);
+                shoppingAdapter = new ShoppingAdapter(MainActivity.this, R.layout.row_shopping_list, shoppingElementList.get(0));
+                lvShoppingList.setAdapter(shoppingAdapter);
 
                 Toast toast = Toast.makeText(this, "Nie można usuwać głównej listy", Toast.LENGTH_LONG);
                 View view = toast.getView();
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 text.setTextColor(Color.WHITE);
                 toast.show();
             }
-            listAdapter.notifyDataSetChanged();
+            shoppingAdapter.notifyDataSetChanged();
             spinnerAdapter.notifyDataSetChanged();
             return true;
         }
@@ -215,36 +216,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void createDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.input_box);
-        TextView dialogListNameTV = (TextView) dialog.findViewById(R.id.listNameTextView);
-        final EditText dialogListNameET = (EditText) dialog.findViewById(R.id.listNameEditText);
+        TextView tvDialog = (TextView) dialog.findViewById(R.id.tv_dialog);
+        final EditText etListName = (EditText) dialog.findViewById(R.id.et_list_name);
 
-        dialogListNameTV.setText("Nazwa listy");
-        dialogListNameTV.setTextColor(Color.WHITE);
+        tvDialog.setText("Nazwa listy");
+        tvDialog.setTextColor(Color.WHITE);
 
-        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
-        Button saveButton = (Button) dialog.findViewById(R.id.saveButton);
+        Button bCancel = (Button) dialog.findViewById(R.id.b_cancel);
+        Button bAdd = (Button) dialog.findViewById(R.id.b_add);
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        bAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spinnerItems.add(dialogListNameET.getText().toString());
-                spinnerList.add(new ArrayList<ShoppingListElement>());
+                spinnerList.add(etListName.getText().toString());
+                shoppingElementList.add(new ArrayList<ShoppingElement>());
 
-                int newField = spinnerItems.size() - 1;
+                int newField = spinnerList.size() - 1;
 
-                itemSpinner.setSelectedIndex(newField);
-                listAdapter = new ShoppingListAdapter(MainActivity.this, R.layout.row_shopping_list, spinnerList.get(newField));
-                itemList.setAdapter(listAdapter);
+                nsList.setSelectedIndex(newField);
+                shoppingAdapter = new ShoppingAdapter(MainActivity.this, R.layout.row_shopping_list, shoppingElementList.get(newField));
+                lvShoppingList.setAdapter(shoppingAdapter);
 
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Dodano nową liste: " + dialogListNameET.getText().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Dodano nową liste: " + etListName.getText().toString(), Toast.LENGTH_LONG).show();
             }
         });
         dialog.show();
