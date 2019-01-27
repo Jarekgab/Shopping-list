@@ -1,7 +1,5 @@
 package pl.android.jarek.shoppinglist;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -15,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,7 +29,6 @@ import pl.android.jarek.shoppinglist.adapter.ShoppingListAdapter;
 import pl.android.jarek.shoppinglist.data.ShoppingListElement;
 import pl.android.jarek.shoppinglist.util.SharedPreferencesSaver;
 
-import static android.app.PendingIntent.getActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
